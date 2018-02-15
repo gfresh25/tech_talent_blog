@@ -1,0 +1,51 @@
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-3">Garrett N Thoughts</h1>
+    <p class="lead">WARNING: Turn back now, or else...</p>
+  </div>
+</div>
+
+<p class="btn btn-info btn-small"><%= link_to 'New Post', new_post_path %></p>
+<!-- Content -->
+<div class="masonary-row row">
+  <div class="posts">
+    <!-- Iteration -->
+    <% @posts.each do |post| %>
+    <!-- Columns -->
+      <div class="col-md-6">
+        <!-- Panels -->
+        <div class="panel panel-success">
+          <div class="panel-heading">
+             <h3><%= post.title %></h3>
+             <!-- Username / time / link_to user post -->
+             <h4>By: <%= link_to post.user.username, user_posts_path(name: post.user.username) %>, <%= post.created_at.strftime("%A %m/%d/%y") %></h4>
+             <!-- Avatar Validation -->
+              <% if post.user.avatar.url != nil %>
+              <%= image_tag current_user.avatar.url, class: "avatar pull-right"%>
+          <% end %>
+           </div>
+           <!-- Blog Entry / Panel Body -->
+          <div class="panel-body">
+            <p>
+              <strong>Blog Entry:</strong>
+             <%= post.blog_entry.html_safe %>
+            </p>
+          </div>       
+          <div class="panel-footer">
+            <!-- Buttons -->
+            <p class="btn btn-primary btn-small"><%= link_to 'Show', post %></p>
+            <p class="btn btn-info btn-small"><%= link_to 'Edit', edit_post_path(post) %></p>
+            <p class="btn btn-warning btn-small"><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %>
+            </p>
+          </div>
+        </div>
+      </div>
+   <% end %>
+  </div>
+</div>
+
+
+<!-- Pagination of Pages Kaminari -->
+<%= paginate @posts %>
+
+

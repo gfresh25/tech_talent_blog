@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<div class="panel panel-success">
+  <div class="panel-heading">
+    <p>
+      <strong>Title:</strong>
+      <%= @post.title %>
+    </p>
+<!-- AUTHOR -->
+  <p><strong>By:</strong> <%= link_to @post.user.username, user_posts_path(name: @post.user.username) %>, <%= @post.created_at.strftime("%A %m/%d/%y") %></p>
+  </div>
+  <div class="panel-body">
+
+    <p>
+      <strong>Blog entry:</strong>
+      <%= @post.blog_entry.html_safe %>
+    </p>
+
+
+      <div id = "comments" class="well">
+        <!-- Display Comments Form Partial -->
+        <%= render 'comments/form', comment: @comment %>
+        
+        <!-- Comments Iteration -->
+        <% @post.comments.each do |comment| %>
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <!-- Show Author & link to user_posts -->
+              <p><%= link_to comment.user.username, user_posts_path(name: comment.user.username) %></p>
+            </div>
+            <div class="panel-body">
+              <p><%= comment.comment_entry %></p>
+            </div>
+          </div>
+        <% end %>
+        <!-- End Comments -->
+
+      </div>
+  </div>
+</div>
+<!-- Buttons -->
+  <p class="btn btn-info btn-small"><%= link_to 'Edit', edit_post_path(@post)%> </p>
+  <p class="btn btn-warning btn-small"><%= link_to 'Back', posts_path %></p>
+
+
